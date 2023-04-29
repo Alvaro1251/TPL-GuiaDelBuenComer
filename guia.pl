@@ -1,31 +1,37 @@
-alimento(banana, fruta).
-alimento(apio, verdura).
-alimento(champignon, hongo).
-alimento(bondiola, carne).
-alimento(huevo, huevo).
-alimento(leche, lacteo).
 
-origenAlimento(verdura, vegetal).
-origenAlimento(huevo, huevo).
-origenAlimento(carne, animal).
-origenAlimento(hongo, fungi).
-origenAlimento(lacteo, animal).
+% de que producto prviene cada alimento
+proviene(leche,vaca).
+proviene(vaca, animal).
+proviene(queso,leche).
+proviene(jamon, cerdo).
+proviene(cerdo, animal).
+proviene(harina,trigo).
+proviene(pan,harina).
+proviene(budinDePan,pan).
+proviene(tostado,pan).
+proviene(tostado,queso).
+
+% Si un alimento:
+%   Es lácteo, o sea, es derivado de la leche.
+%   Tiene gluten, que por ahora son todos los derivados del trigo.
+%   Es derivado de algún animal.
+
+derivadoDe(Producto,OtroProducto):-
+    proviene(Producto,OtroProducto).
+derivadoDe(Producto,OtroProducto):-
+    proviene(Producto,UnIntermedio),
+    derivadoDe(UnIntermedio, OtroProducto).
+
+esLacteo(Alimento):-
+    derivadoDe(Alimento, leche).
+
+tieneGluten(Alimento):-
+    derivadoDe(Alimento, trigo).
+
+derivadoDeAnimal(Alimento):-
+    derivadoDe(Alimento, animal).
 
 
-% De qué producto proviene cada alimento.
-
-alimentoProvieneDe(Alimento, Origen):-
-    alimento(Alimento, Tipo),
-    origenAlimento(Tipo, Origen).
-
-% Un alimento:
-% Es lácteo, o sea, es derivado de la leche.
-% Tiene gluten, que por ahora son todos los derivados del trigo.
-% Es derivado de algún animal.
-
-esDerivadoDe(leche, vaca).
-esDerivadoDe(queso, leche).
-esDerivadoDe(harina, trigo).
 
 
 
